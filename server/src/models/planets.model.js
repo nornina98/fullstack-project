@@ -1,6 +1,6 @@
-const parse = require("csv-parse");
-const { promises } = require("dns");
+const { parse } = require("csv-parse");
 const fs = require("fs");
+const path = require("path");
 
 const habitablePlanets = [];
 
@@ -16,7 +16,9 @@ function isHabitablePlanet(planet) {
 
 function loadPlanetsData() {
   return new Promise((resolve, reject) => {
-    fs.createReadStream("kepler_data.csv")
+    fs.createReadStream(
+      path.join(__dirname, "..", "..", "data", "kepler_data.csv")
+    )
       .pipe(
         parse({
           comment: "#",
@@ -30,6 +32,7 @@ function loadPlanetsData() {
       })
       .on("error", (err) => {
         console.log(err);
+        reject(err);
       })
       .on("end", () => {
         console.log(`${habitablePlanets.length} habitable planets found!`);
@@ -40,4 +43,5 @@ function loadPlanetsData() {
 
 module.exports = {
   planets: habitablePlanets,
+  loadPlanetsData,
 };
