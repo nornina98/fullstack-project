@@ -17,14 +17,14 @@ cd yourproject
 npm install
 ```
 
-# Setting BUILD_PATH On | Windows
+## Setting BUILD_PATH On | Windows
 
 set BUILD_PATH=../server/public&& react-scripts build
 
-# Rather than the bash version:
+## Rather than the bash version:
 
 BUILD_PATH=../server/public react-scripts build
 
-# Important
+## Important
 
 Copy the set command exactly, making sure there's no space between the word public and the && symbols. If you add a space, Windows will add that space to the name of the build folder, and our front end dashboard will never load.
