@@ -1,6 +1,6 @@
 ## About
 
-Provide a more detailed description of your project, including its purpose, features, and any other relevant information. You can also include screenshots or GIFs to showcase your project.
+Simple project created by N.M.Ikram ~
 
 ## Installation
 
@@ -21,10 +21,8 @@ npm install
 
 set BUILD_PATH=../server/public&& react-scripts build
 
+Copy the set command exactly, making sure there's no space between the word public and the && symbols. If you add a space, Windows will add that space to the name of the build folder, and our front end dashboard will never load.
+
 ## Rather than the bash version:
 
 BUILD_PATH=../server/public react-scripts build
-
-## Important
-
-Copy the set command exactly, making sure there's no space between the word public and the && symbols. If you add a space, Windows will add that space to the name of the build folder, and our front end dashboard will never load.
