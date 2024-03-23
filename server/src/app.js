@@ -8,19 +8,22 @@ const launchesRouter = require("./routes/launches/launches.router");
 
 const app = express();
 
-// Define routes or middleware using express json
+// fix cross origin policy from different port - cliet v server!
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
 );
 
+// Create routes url and middleware!
 app.use(morgan("combined"));
 
 app.use(express.json());
+
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/planets", planetsRouter);
+
 app.use("/launches", launchesRouter);
 
 app.get("/*", (req, res) => {
