@@ -11,20 +11,61 @@ describe("Test GET /launches", () => {
 });
 
 describe("Test POST /launch", () => {
-  test("It should response with 200 created", async () => {
+  const completeLaunchData = {
+    mission: "USS Enterprise",
+    rocket: "NCC 1701-D",
+    target: "Kepler-62 f",
+    launchDate: "January 4, 2028",
+  };
+
+  const launchDataWithoutDate = {
+    mission: "USS Enterprise",
+    rocket: "NCC 1701-D",
+    target: "Kepler-62 f",
+  };
+
+  const launchDataWithInvalidDate = {
+    mission: "USS Enterprise",
+    rocket: "NCC 1701-D",
+    target: "Kepler-62 f",
+    launchDate: "invalid-date",
+  };
+
+  test("It should response with 201 created", async () => {
     const response = await request(app)
       .post("/launches")
-      .send({
-        mission: "USS Enterprise",
-        rocket: "NCC 1701-D",
-        target: "Kepler-62 f",
-        launchDate: "January 4, 2028",
-      })
+      .send(completeLaunchData)
       .expect("Content-Type", /json/)
       .expect(201);
+
+    const requestDate = new Date(completeLaunchData.launchDate).valueOf();
+    const responseDate = new Date(response.body.launchDate).valueOf();
+    expect(responseDate).toBe(requestDate);
+
+    expect(response.body).toMatchObject(launchDataWithoutDate);
   });
 
-  test("It should catch missing require properties", () => {});
+  test("It should catch missing require properties", async () => {
+    const response = await request(app)
+      .post("/launches")
+      .send(launchDataWithoutDate)
+      .expect("Content-Type", /json/)
+      .expect(400);
 
-  test("It should catch invalid dates", () => {});
+    expect(response.body).toStrictEqual({
+      error: "Missing required launch property",
+    });
+  });
+
+  test("It should catch invalid dates", async () => {
+    const response = await request(app)
+      .post("/launches")
+      .send(launchDataWithInvalidDate)
+      .expect("Content-Type", /json/)
+      .expect(400);
+
+    expect(response.body).toStrictEqual({
+      error: "Invalid launch date",
+    });
+  });
 });
